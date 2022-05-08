@@ -2,4 +2,4 @@
 .vscode
 taint/bin/**
 taint/obj/**
-riscv
+/riscv

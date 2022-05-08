@@ -1,5 +1,5 @@
-/.taint
-/.vscode
-/taint/bin/**
-/taint/obj/**
-/riscv
+.taint
+.vscode
+taint/bin/**
+taint/obj/**
+riscv

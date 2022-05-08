@@ -1,10 +1,10 @@
 bin  = ./bin
 obj  = ./obj
 src  = ./src
-riscv = ../riscv
+tool = ../tools/bin
 
-ld  = $(riscv)/bin/riscv64-unknown-linux-gnu-ld
-cc  = $(riscv)/bin/riscv64-unknown-linux-gnu-g++
+ld  = $(tool)/riscv64-unknown-linux-gnu-ld
+cc  = $(tool)/riscv64-unknown-linux-gnu-g++
 ccf = -c -std=c++17 -I $(src) -march=rv64imafdc
 
 obj_files = $(shell find $(obj) -name *.o)
@@ -25,4 +25,4 @@ clean :
 	@rm $(bin)/* 2>/dev/null
 
 release :
-	scp -P 52010 $(bin)/$(target) ubuntu@localhost:~/riscv-dynamic-taint-analysis/$(target)
+	scp -P 52010 $(bin)/$(target) ubuntu@localhost:~/capstone/$(target)

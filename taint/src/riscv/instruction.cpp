@@ -64,10 +64,6 @@ bool instruction::matcher::match(insn_t raw) {
     return (raw & _v_mask) == _v_match;
 }
 
-void instruction::decoder::decode_null(insn_t raw, instruction &insn) {
-
-}
-
 void instruction::decoder::decode_rtype(insn_t raw, instruction &insn) {
     insn._rd  = parser::parse_rd(raw);
     insn._rs1 = parser::parse_rs1(raw);
@@ -116,60 +112,64 @@ instruction instruction::decode(insn_t raw) {
     instruction insn;
 
     int64_t index = 0;
-    while (!descriptors[index].matcher(raw)) {
-        if (descriptors[index].next == 0) {
+    while (!descriptions[index].matcher(raw)) {
+        if (descriptions[index].next == 0) {
             insn._opcode = opcode::illegal;
             return insn;
         }
-        index = descriptors[index].next;
+        index = descriptions[index].next;
     }
 
     ++index;
-    while (!descriptors[index].matcher(raw)) {
-        if (descriptors[index].opcode == opcode::illegal) {
+    while (!descriptions[index].matcher(raw)) {
+        if (descriptions[index].opcode == opcode::illegal) {
             insn._opcode = opcode::illegal;
             return insn;
         }
         ++index;
     }
 
-    auto desc = descriptors.at(index);
-    desc.decoder(raw, insn);
-    insn._opcode = desc.opcode;
-    insn._sign = desc.sign;
-    insn._length = desc.length;
+    auto description = descriptions.at(index);
+    description.decoder(raw, insn);
+    insn._opcode = description.opcode;
+    insn._sign = description.sign;
+    insn._length = description.length;
     return insn;
 }
 
-insn_t instruction::get_raw() {
+insn_t instruction::raw() {
     return _raw;
 }
 
-insn_t instruction::get_opcode() {
+insn_t instruction::opcode() {
     return _opcode;
 }
 
-insn_t instruction::get_rd() {
+insn_t instruction::rd() {
     return _rd;
 }
 
-insn_t instruction::get_rs1() {
+insn_t instruction::rs1() {
     return _rs1;
 }
 
-insn_t instruction::get_rs2() {
+insn_t instruction::rs2() {
     return _rs2;
 }
 
-int32_t instruction::get_imm_signed() {
+int64_t instruction::simm() {
     return _imm | (~((_imm >> _sign) << _sign));
 }
 
-uint32_t instruction::get_imm_unsigned() {
+uint64_t instruction::uimm() {
     return _imm;
 }
 
-uint64_t instruction::get_length() {
+uint64_t instruction::shamt() {
+    return _shamt;
+}
+
+int64_t instruction::length() {
     return _length;
 }
 
@@ -180,8 +180,6 @@ instruction::instruction() :
     _rs1(0),
     _rs2(0),
     _imm(0),
-    _length(0) {
-    
-}
+    _length(0) { }
 
 }

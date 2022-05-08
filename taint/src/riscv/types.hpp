@@ -9,8 +9,7 @@ namespace riscv {
     # error "only support rv64"
 # endif
 
-typedef uint32_t opid_t; // opcode id
-typedef uint32_t insn_t; // instruction
+typedef uint32_t insn_t;
 typedef uint64_t addr_t;
 typedef uint64_t xlen_t;
 typedef double   flen_t;

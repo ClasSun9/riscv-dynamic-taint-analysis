@@ -26,12 +26,9 @@ context target::create_context() {
         reinterpret_cast<addr_t>(regs.data()), 
         sizeof(xlen_t) * regs.size() };
     ptrace(PTRACE_GETREGSET, _pid, 1, iovec.data());
-
     addr_t pc = regs[0];
     insn_t raw = ptrace(PTRACE_PEEKTEXT, _pid, pc, 0);
-    
     regs[0] = 0;
-
     return context(pc, instruction::decode(raw), registerset::fill(regs));
 }
 

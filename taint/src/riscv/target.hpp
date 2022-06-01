@@ -1,37 +1,28 @@
-# ifndef _RISCV__TARGET_HPP_
-# define _RISCV__TARGET_HPP_
+#ifndef _RISCV__TARGET_HPP_
+#define _RISCV__TARGET_HPP_
 
-# include "types.hpp"
-# include "context.hpp"
-# include <string>
-# include <sys/types.h>
+#include <string>
+#include <sys/types.h>
+#include "./types.hpp"
+#include "./targetcontext.hpp"
 
 namespace riscv {
 
 class target {
 private:
     pid_t _pid;
-    bool _is_running;
-
-    context _context;
-
+    targetcontext _context;
 private:
-    void run_to(addr_t addr);
-    context create_context();
-
-private:
-    target(pid_t pid);
-
+    targetcontext create_context();
 public:
-    static target* run(std::string path, addr_t entrypoint);
-
-    bool is_running();
-    bool next();
+    targetcontext context();
+    void run_until(addr_t until);
+    void run_one_step();
     void exit();
-
-    context context();
+public:
+    target(std::string path, addr_t entrypoint);
 };
 
 }
 
-# endif
+#endif

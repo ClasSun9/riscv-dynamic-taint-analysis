@@ -1,13 +1,9 @@
-# include "riscv/types.hpp"
-# include "riscv/specification.hpp"
-# include "riscv/instruction.hpp"
+#include "riscv/target.hpp"
+#include "riscv/targetcontext.hpp"
 
-# include <cstdio>
-# include <unistd.h>
+using namespace riscv;
 
-int main(int argc, const char *argv[], const char *envp[]) {
-
-    
+int main(int argc, const char *argv[]) {
 
     return 0;
 }
